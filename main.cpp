@@ -2,6 +2,7 @@
 
 int main() {
 
-    std::cout << "Hello, Git!" << std::endl;
+    std::cout << "Hello, Gitt!" << std::endl;
+
     return 0;
 }
