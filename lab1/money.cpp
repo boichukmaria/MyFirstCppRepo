@@ -1,52 +1,73 @@
 #include <iostream>
-#include  "money.h"
+#include <fstream>
+#include "money.h"
 using namespace std;
 
-void Money::normalize(){
-    grn = grn + kop / 100;
-    kop = kop % 100;
-};
+void normalize(Money* a){
+    a->grn = a->grn + a->kop / 100;
+    a->kop = a->kop % 100;
+}
 
-void Money::add(Money other){
-    grn = grn + other.grn;
-    kop = kop + other.kop;
-    normalize();
-};
+void add(Money* a, Money other){
+    a->grn = a->grn + other.grn;
+    a->kop = a->kop + other.kop;
 
-void Money::multiply(int number){
-    grn = grn * number;
-    kop = kop * number;
-    normalize();
-};
+    normalize(a);
+}
 
-void Money::round(){
-    int specified_rounding = kop % 10; //округлення до 10
+void multiply(Money* a, int number){
+    a->grn = a->grn * number;
+    a->kop = a->kop * number;
+
+    normalize(a);
+}
+
+void round(Money* a){
+    int specified_rounding = a->kop % 10;
 
     if(specified_rounding < 5){
-        kop = kop - specified_rounding;
-    } else {
-        kop = kop + (10 - specified_rounding);
-    };
-
-    normalize();
-};
-
-void Money::print(){
-    cout << grn << " grn " << kop << " kop" << endl;
-};
-
-void lab(){
-     ifstream file("input.txt");
-    if (!file) return 1; 
-    Money total, item;
-    int g, q;
-    short int k;
-    while (file >> g >> k >> q) {
-        item = Money(g, k);
-        item.multiply(q);
-        total.add(item);
+        a->kop = a->kop - specified_rounding;
+    } 
+    else {
+        a->kop = a->kop + (10 - specified_rounding);
     }
-    cout << "Total amount: "; total.print();
-    total.round();
-    cout << "Amount to be paid: "; total.print();
+
+    normalize(a);
+}
+
+void print(Money a){
+    cout << a.grn << " grn " << a.kop << " kop" << endl;
+}
+
+
+void lab() {
+   
+    ifstream file("input.txt"); 
+    
+    if (!file) {
+        cerr << "Error opening file!" << endl;
+        return;
+    }
+
+    Money total = {0, 0}; 
+    Money item;
+    int g, q;
+    short k;
+
+    while (file >> g >> k >> q) {
+        item.grn = g;
+        item.kop = k;
+
+        multiply(&item, q);
+        add(&total, item);
+    }
+
+    cout << "Total amount: ";
+    print(total);
+
+    round(&total);
+    cout << "Amount to be paid: ";
+    print(total);
+
+    file.close();
 }
