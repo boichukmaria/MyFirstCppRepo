@@ -11,15 +11,11 @@ void normalize(Money* a){
 void add(Money* a, Money other){
     a->grn = a->grn + other.grn;
     a->kop = a->kop + other.kop;
-
-    normalize(a);
 }
 
 void multiply(Money* a, int number){
     a->grn = a->grn * number;
     a->kop = a->kop * number;
-
-    normalize(a);
 }
 
 void round(Money* a){
@@ -31,43 +27,42 @@ void round(Money* a){
     else {
         a->kop = a->kop + (10 - specified_rounding);
     }
-
-    normalize(a);
 }
 
-void print(Money a){
-    cout << a.grn << " grn " << a.kop << " kop" << endl;
+void Print(Money* a){
+    normalize(a);
+    cout << a->grn << " grn " << a->kop << " kop" << endl;
 }
 
 
 void lab() {
    
-    ifstream file("input.txt"); 
-    
-    if (!file) {
-        cerr << "Error opening file!" << endl;
-        return;
-    }
+   FILE *file;
+int err = fopen_s(&file, "input.txt", "r");
+if (err != 0) {
+    std::cout << "Error opening file!" << std::endl; 
+}
 
     Money total = {0, 0}; 
     Money item;
     int g, q;
-    short k;
+    short int k;
+    char str[10];
 
-    while (file >> g >> k >> q) {
-        item.grn = g;
-        item.kop = k;
+    while (fscanf(file, "%s %d %hi %d", &str, &g, &k, &q) == 4) {
+    item.grn = g;
+    item.kop = k;
 
-        multiply(&item, q);
-        add(&total, item);
-    }
+    multiply(&item, q);
+    add(&total, item);
+}
 
     cout << "Total amount: ";
-    print(total);
+    Print(&total);
 
     round(&total);
     cout << "Amount to be paid: ";
-    print(total);
+    Print(&total);
 
-    file.close();
+    fclose(file);
 }

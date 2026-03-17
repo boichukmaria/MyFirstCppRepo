@@ -10,7 +10,7 @@ void normalize(Money* a);
 void add(Money* a, Money other);
 void multiply(Money* a, int number);
 void round(Money* a);
-void print(Money a);
+void Print(Money* a);
 
 void lab();
 
