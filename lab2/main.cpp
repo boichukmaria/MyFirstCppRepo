@@ -1,6 +1,6 @@
-#include "triangle.h"
+#include "rar.h"
 
-int main() {
-    lab_2();
+int main(){
+    Lab_2();
     return 0;
 }
