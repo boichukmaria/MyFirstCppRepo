@@ -3,12 +3,13 @@
 
 class HospoduDaiSul {
 private:
-    double a, b, eps;
-    // Твої функції з варіанту
-    double f(double x);
-    double df(double x);
+    double a, b, eps;   //доступитись через конструктор або сеттери і гетери  
 
 public:
+ // Мої функції з варіанту
+    double f(double x);
+    double df(double x);  
+    
     HospoduDaiSul();
     ~HospoduDaiSul();
 

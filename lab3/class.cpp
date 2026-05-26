@@ -15,7 +15,7 @@ void HospoduDaiSul::setTolerance(double vol_eps) {
     eps = vol_eps;
 }
 
-// Функція за варіантом: 3*sin(sqrt(x)) + 0.35*x - 3.8
+// Функція за моїм варіантом: 3*sin(sqrt(x)) + 0.35*x - 3.8
 double HospoduDaiSul::f(double x) {
     return 3 * std::sin(std::sqrt(x)) + 0.35 * x - 3.8;
 }
@@ -31,13 +31,13 @@ void HospoduDaiSul::Dyhotomia() {
     double temp_a = a;
     double temp_b = b;
 
-    if ((f(temp_a) * f(temp_b)) > 0) {
+    if ((f(temp_a) * f(temp_b)) == 0) {
         std::cout << "[Дихотомія] Немає розв'язків на проміжку: (" << temp_a << ":" << temp_b << ")" << std::endl;
         return;
     }
 
     while (std::abs(temp_a - temp_b) > eps) {
-        double c = (temp_a + temp_b) / 2;
+        double c = (temp_a + temp_b) / 2;   //перевіряємо добуток від числа та середини проміжку
         if ((f(temp_a) * f(c)) < 0) {
             temp_b = c;
         } else {
@@ -50,7 +50,8 @@ void HospoduDaiSul::Dyhotomia() {
 
 // Метод Ньютона (Дотичних)
 void HospoduDaiSul::Newton() {
-    double x = (a + b) / 2; // Початкове наближення посередині
+ 
+    double x = 5; // Початкове наближення посередині проміжку
     int iterations = 0;
     
     while (std::abs(f(x)) > eps && iterations < 1000) {
@@ -82,7 +83,7 @@ void Lab_3() {
     std::cout << "Введіть точність eps (наприклад, 0.0001): ";
     std::cin >> in_eps;
 
-    cls->setIntervals(in_a, in_b);
+    cls->setIntervals(in_a, in_b);   //викликаємо методи класу 
     cls->setTolerance(in_eps);
 
     cls->Dyhotomia();
